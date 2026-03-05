@@ -94,7 +94,7 @@ require("lazy").setup({
     -- leetcode
     {
         "kawre/leetcode.nvim",
-        build = ":TSUpdate html_tags", -- if you have `nvim-treesitter` installed
+        build = ":TSUpdate html", -- if you have `nvim-treesitter` installed
         dependencies = {
             -- include a picker of your choice, see picker section for more details
             "nvim-lua/plenary.nvim",
@@ -116,8 +116,21 @@ require("lazy").setup({
         "catppuccin/nvim",
         name = "catppuccin",
         priority = 1000,
-    }
-})
+    },
 
+    -- Terminal
+    {
+        "akinsho/toggleterm.nvim",
+        version = "*",
+        config = function()
+            require("toggleterm").setup({
+                size = 15,
+                open_mapping = [[<C-\>]],
+                direction = "horizontal",
+                shade_terminals = true,
+            })
+        end,
+    },
+})
 -- Load custom config only if it exists
 pcall(require, "config")
