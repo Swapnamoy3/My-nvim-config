@@ -50,6 +50,13 @@ require("lazy").setup({
         end,
     },
 
+    -- CompetiTest
+    {
+        'xeluxee/competitest.nvim',
+        dependencies = 'MunifTanjim/nui.nvim',
+        config = function() require('competitest').setup() end,
+    },
+
     -- Fuzzy finder
     {
         "nvim-telescope/telescope.nvim",

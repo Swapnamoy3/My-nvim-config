@@ -1,24 +1,35 @@
 vim.cmd.colorscheme("catppuccin-mocha")
 -- Mason
-
+-- MASON & LSP SETUP
+-- ==========================================
 require("mason").setup()
-
 require("mason-lspconfig").setup({
     ensure_installed = { "lua_ls", "clangd", "pyright" },
 })
 
--- Autocomplete capabilities
+local lspconfig = require("lspconfig")
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
--- NEW Neovim built-in LSP config system
-local servers = { "lua_ls", "clangd", "pyright" }
+-- Setup servers via lspconfig (Standard method)
+vim.lsp.config("lua_ls", {
+    capabilities = capabilities,
+})
 
-for _, server in ipairs(servers) do
-    vim.lsp.config(server, {
-        capabilities = capabilities,
-    })
-    vim.lsp.enable(server)
-end
+vim.lsp.config("clangd", {
+    cmd = {
+        "/run/current-system/sw/bin/clangd",
+        "--background-index",
+        "--clang-tidy",
+        "--completion-style=detailed",
+    },
+    capabilities = capabilities,
+})
+
+vim.lsp.config("pyright", {
+    capabilities = capabilities,
+})
+
+vim.lsp.enable({ "lua_ls", "clangd", "pyright" })
 
 -- Autocomplete setup
 local cmp = require("cmp")
@@ -64,6 +75,9 @@ vim.diagnostic.config({
 -- File explorer
 require("nvim-tree").setup()
 vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>")
+
+-- competitest
+require('competitest').setup() -- to use default configuration
 
 -- Git signs
 require("gitsigns").setup()
